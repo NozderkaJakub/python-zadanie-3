@@ -1,5 +1,6 @@
-import numpy as np
+import collections
 import math
+import numpy as np
 
 
 class DataStructure:
@@ -36,3 +37,12 @@ class DataStructure:
     @classmethod
     def calc_maximum(cls, data):
         return max(data)
+
+    @classmethod
+    def calc_mode(cls, data):
+        value, number = max(
+            collections.Counter(data).items(),
+            key=lambda x: x[1]
+        )
+        (value, number, rate) = value, number, number / len(data)
+        return (value, number, rate)
