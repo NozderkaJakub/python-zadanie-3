@@ -1,5 +1,3 @@
-
-
 class DataStructure:
 
     def __init__(self, sequenceName, mcg, gvh, lip, chg, aac, alm1, alm2, localization):
