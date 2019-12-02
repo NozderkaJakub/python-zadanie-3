@@ -22,7 +22,15 @@ class DataStructure:
 
     @classmethod
     def calc_standard_deviation(cls, data):
-        pass
+        arithmetic_mean = DataStructure.calc_arithmetic_mean(data)
+        differences = data - arithmetic_mean
+        powers = differences**2
+        sums = sum(powers)
+        variance = sums/len(data)
+        return math.sqrt(variance)
+        # print(differences[0]**2)
+        # variance = np.sum(math.pow((data-arithmetic_mean), 2))/len(data)
+        # return math.sqrt(variance)
 
     @classmethod
     def calc_median(cls, data):
