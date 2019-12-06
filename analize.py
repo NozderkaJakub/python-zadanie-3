@@ -19,8 +19,9 @@ class Analize:
 
 
     def analizis(self):
-        while(1):
-            self.decide()
+        pass
+        # while(1):
+        #     self.decide()
 
 
     def decide(self):
