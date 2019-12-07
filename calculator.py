@@ -74,7 +74,7 @@ class Calculator:
     @classmethod
     def calc_correlation_matrix(cls, data):
         columns_no = len([x[0] for x in data])
-        print(columns_no)
+        # print(columns_no)
         correlations = np.zeros(shape=(columns_no, columns_no))
         for i in range(0, columns_no):
             for j in range(0, columns_no):
