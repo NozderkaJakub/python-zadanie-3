@@ -22,41 +22,27 @@ class Analize:
 
 
     def analizis(self):
-        self.get_correlation_array()
+        for element in dataTypes[:7]:
+            print('==' + element + '==')
+            for function in quantitativeFunctions:
+                function(self.data[element], verbose=True)
+            print('\n')
+        
+        for element in dataTypes[7:]:
+            print('==' + element + '==')
+            Calculator.calc_mode(self.data[element], verbose=True)
+            print('\n')
+
+        matrix = self.get_correlation_array()
         self.histogram()
+        self.draw_heatmap(matrix)
         self.draw_regression_curve()
-        # while(1):
-        #     self.decide()
-
- 
-    def decide(self):
-        decision = input('Podaj numer danych, na których chcesz operować\n' + 
-                        '1) mcg\n' + '2) gvh\n' + '3) lip\n' + '4) chg\n' + '5) aac\n' +
-                        '6) alm1\n' + '7) alm2\n' + '8) sequenceName\n' + '9) localization\n' + 'wybór: ')
-        if decision in ['1', '2', '3', '4', '5', '6', '7']:
-            self.quantitativeCharacteristic(decision)
-        elif decision in ['8', '9']:
-            self.qualityCharacteristic(decision)
-        else:
-            print('Nie ma takich danych...')
-
-            
-    def quantitativeCharacteristic(self, decision):
-        operation = input('Jaką operację chcesz wykonać?\n' + '   1) średnia arytmetyczna\n' + '   2) odchylenie standardowe\n' +
-                        '   3) mediana\n' + '   4) minimum\n' + '   5) maximum\n' + '   wynór: ')
-        quantitativeFunctions[int(operation) - 1](self.data[dataTypes[int(decision) - 1]], verbose=True)
-
-
-    def qualityCharacteristic(self, decision):
-        Calculator.calc_mode(self.data[dataTypes[int(decision) - 1]], verbose=True)
 
 
     def draw_heatmap(self, matrix):
         fig, ax = plt.subplots()
-
         im, cbar = self.heatmap(matrix, ax=ax, cmap="YlGn", cbarlabel="")
         texts = self.annotate_heatmap(im, valfmt="{x:.5f}")
-
         fig.tight_layout()
         plt.show()
 
@@ -65,10 +51,10 @@ class Analize:
         arr = []
         for i in range(7):
             arr.append( [x[i+1] for x in self.data] )
-        # Calculator.calc_correlation_matrix(np.asarray(arr))
         matrix = Calculator.calc_correlation_matrix(np.asarray(arr))
-        
-        self.draw_heatmap(matrix)
+        print('Macierz korelacji dla cech ilościowych')
+        print(matrix)
+        return matrix
 
 
     def draw_regression_curve(self):
