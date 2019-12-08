@@ -18,42 +18,45 @@ class Analize:
     def __init__(self, data):
         self.data = data
 
-    def analizis(self):
-        for element in dataTypes[:7]:
-            print('==' + element + '==')
-            for function in quantitativeFunctions:
-                function(self.data[element])
-            print('\n')
+    # def analizis(self):
+    #     for element in dataTypes[:7]:
+    #         print('==' + element + '==')
+    #         for function in quantitativeFunctions:
+    #             function(self.data[element])
+    #         print('\n')
 
-        for element in dataTypes[7:]:
-            print('==' + element + '==')
-            Calculator.calc_mode(self.data[element])
-            print('\n')
+    #     for element in dataTypes[7:]:
+    #         print('==' + element + '==')
+    #         Calculator.calc_mode(self.data[element])
+    #         print('\n')
 
-        matrix = self.get_correlation_array()
+        # matrix = self.get_correlation_array()
         # self.histogram()
-        self.draw_heatmap(matrix)
-        self.draw_regression_curve()
+        # self.draw_heatmap(matrix)
+        # self.draw_regression_curve()
 
-    def draw_heatmap(self, matrix):
+    @classmethod
+    def draw_heatmap(cls, matrix):
         fig, ax = plt.subplots()
-        im, cbar = self.heatmap(matrix, ax=ax, cmap="YlGn", cbarlabel="")
-        texts = self.annotate_heatmap(im, valfmt="{x:.5f}")
+        im, cbar = Analize.heatmap(matrix, ax=ax, cmap="YlGn", cbarlabel="")
+        texts = Analize.annotate_heatmap(im, valfmt="{x:.5f}")
         fig.tight_layout()
         plt.show()
 
-    def get_correlation_array(self):
-        arr = []
-        for i in range(7):
-            arr.append([x[i+1] for x in self.data])
-        matrix = Calculator.calc_correlation_matrix(np.asarray(arr))
-        print('Macierz korelacji dla cech ilościowych')
-        print(matrix)
-        return matrix
+    # def get_correlation_array(self):
+    #     arr = []
+    #     for i in range(7):
+    #         arr.append([x[i+1] for x in self.data])
+    #     matrix = Calculator.calc_correlation_matrix(np.asarray(arr))
+    #     print('Macierz korelacji dla cech ilościowych')
+    #     print(matrix)
+    #     return matrix
 
-    def draw_regression_curve(self):
-        x = self.data['aac']
-        y = self.data['alm2']
+    @classmethod
+    def draw_regression_curve(cls, data):
+        keys = [k for (k, v) in data.items()]
+        x = data[keys[0]]
+        y = data[keys[1]]
         coef = np.polyfit(x, y, 1)
         poly1d_fn = np.poly1d(coef)
         plt.plot(x, y, 'yo', x, poly1d_fn(x), '--k')
@@ -64,12 +67,11 @@ class Analize:
     def histogram(cls, data):
         keys = [k for (k, v) in data.items()]
         for i in range(0, len(data)):
-            plt.hist(data[keys[i]], alpha=0.5, label=keys[i])    
-        # plt.hist(self.data['aac'], alpha=0.5, label='aac')
-        # plt.hist(self.data['alm2'], alpha=0.5, label='alm2')
+            plt.hist(data[keys[i]], alpha=0.5, label=keys[i])
         plt.legend(loc='upper right')
         plt.show()
 
+    @classmethod
     def heatmap(self, data, ax=None, cbar_kw={}, cbarlabel="", **kwargs):
         if not ax:
             ax = plt.gca()
@@ -107,7 +109,8 @@ class Analize:
 
         return im, cbar
 
-    def annotate_heatmap(self, im, data=None, valfmt="{x:.2f}", textcolors=["black", "white"], threshold=None, **textkw):
+    @classmethod
+    def annotate_heatmap(cls, im, data=None, valfmt="{x:.2f}", textcolors=["black", "white"], threshold=None, **textkw):
 
         if not isinstance(data, (list, np.ndarray)):
             data = im.get_array()

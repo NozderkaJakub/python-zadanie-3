@@ -8,8 +8,9 @@ from data import Data
 def main():
     data = Data()
     newdata = data.get_subdata_by_columns(['mcg', 'gvh', 'lip', 'chg', 'aac', 'alm1', 'alm2'])
-    print(Calc.calc_correlation_matrix(newdata, dataframe=True))
-    Analize.histogram(data.get_subdata_by_columns(['mcg', 'gvh']))
+    # print(Calc.calc_correlation_matrix(newdata, dataframe=True))
+    # Analize.histogram(data.get_subdata_by_columns(['mcg', 'gvh']))
+    Analize.heatmap(newdata)
 
 if __name__ == "__main__":
     main()
