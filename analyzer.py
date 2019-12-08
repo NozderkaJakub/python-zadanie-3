@@ -31,7 +31,7 @@ class Analize:
             print('\n')
 
         matrix = self.get_correlation_array()
-        self.histogram()
+        # self.histogram()
         self.draw_heatmap(matrix)
         self.draw_regression_curve()
 
@@ -60,9 +60,13 @@ class Analize:
         plt.plot()
         plt.show()
 
-    def histogram(self):
-        plt.hist(self.data['aac'], alpha=0.5, label='aac')
-        plt.hist(self.data['alm2'], alpha=0.5, label='alm2')
+    @classmethod
+    def histogram(cls, data):
+        keys = [k for (k, v) in data.items()]
+        for i in range(0, len(data)):
+            plt.hist(data[keys[i]], alpha=0.5, label=keys[i])    
+        # plt.hist(self.data['aac'], alpha=0.5, label='aac')
+        # plt.hist(self.data['alm2'], alpha=0.5, label='alm2')
         plt.legend(loc='upper right')
         plt.show()
 

@@ -1,6 +1,7 @@
 import collections
 import math
 import numpy as np
+import pandas as pd
 
 
 class Calculator:
@@ -53,7 +54,7 @@ class Calculator:
         return value, number, number / len(data)
 
     @classmethod
-    def calc_correlation_matrix(cls, data):
+    def calc_correlation_matrix(cls, data, dataframe=False):
         columns_no = len(data)
         correlations = np.zeros(shape=(columns_no, columns_no))
         keys = [k for (k, v) in data.items()]
@@ -62,7 +63,7 @@ class Calculator:
                 correlations[i[0]][j[0]] = Calculator.calc_correlation(
                     np.asarray([data[i[1]], data[j[1]]])
                 )
-        return correlations
+        return Calculator.__as_dataframe(correlations, keys) if dataframe else correlations
 
     @classmethod
     def calc_correlation(cls, data):
@@ -80,3 +81,11 @@ class Calculator:
         EXY = Calculator.calc_arithmetic_mean(data[0]*data[1])
         covariance = EXY - (EX*EY)
         return covariance
+
+
+    @classmethod
+    def __as_dataframe(cls, data, keys):
+        tmp = {}
+        for i in range(0, len(data)):
+            tmp[keys[i]] = [x[i] for x in data]
+        return pd.DataFrame(tmp, columns=keys, index=keys)
