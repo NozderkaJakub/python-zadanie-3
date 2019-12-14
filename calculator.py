@@ -2,6 +2,7 @@ import collections
 import math
 import numpy as np
 import pandas as pd
+import seaborn as sns
 
 
 class Calculator:
@@ -51,13 +52,15 @@ class Calculator:
             collections.Counter(data).items(),
             key=lambda x: x[1]
         )
+        print(value)
         return value, number, number / len(data)
 
     @classmethod
     def calc_correlation_matrix(cls, data, dataframe=False):
         columns_no = len(data)
         correlations = np.zeros(shape=(columns_no, columns_no))
-        keys = [k for (k, v) in data.items()]
+        # print(data.items())
+        keys = [k for (k, _) in data.items()]
         for i in enumerate(keys):
             for j in enumerate(keys):
                 correlations[i[0]][j[0]] = Calculator.calc_correlation(

@@ -4,6 +4,8 @@ from collections import Counter
 from calculator import Calculator
 import matplotlib
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 quantitativeFunctions = [Calculator.calc_arithmetic_mean, Calculator.calc_standard_deviation, Calculator.calc_median,
                          Calculator.calc_minimum, Calculator.calc_maximum]
@@ -35,13 +37,24 @@ class Analize:
         # self.draw_heatmap(matrix)
         # self.draw_regression_curve()
 
+    def make_output(self):
+        data = { "Średnia arytmetyczna": [], "Odchylenie standardowe": [], "Mediana": [], "Minimum": [], "Maksimum": [] }
+        keys = list(data.keys())
+        for function in quantitativeFunctions:
+            for dataType in dataTypes[:7]:
+                i = quantitativeFunctions.index(function)
+                data[keys[i]].append(function(self.data[dataType]))
+        df = pd.DataFrame(data, index=dataTypes[:7])
+        print(df)
+
     @classmethod
     def draw_heatmap(cls, matrix):
         fig, ax = plt.subplots()
-        im, cbar = Analize.heatmap(matrix, ax=ax, cmap="YlGn", cbarlabel="")
-        texts = Analize.annotate_heatmap(im, valfmt="{x:.5f}")
+        im, _ = Analize.heatmap(matrix, ax=ax, cmap="YlGn", cbarlabel="")
+        _ = Analize.annotate_heatmap(im, valfmt="{x:.3f}")
         fig.tight_layout()
         plt.show()
+        g = sns.pairplot(matrix)
 
     # def get_correlation_array(self):
     #     arr = []
@@ -83,10 +96,8 @@ class Analize:
         cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
         cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
 
-        # We want to show all ticks...
         ax.set_xticks(np.arange(data.shape[1]))
         ax.set_yticks(np.arange(data.shape[0]))
-        # ... and label them with the respective list entries.
         ax.set_xticklabels(dataTypes[0:7])
         ax.set_yticklabels(dataTypes[0:7])
 
@@ -99,7 +110,7 @@ class Analize:
                  rotation_mode="anchor")
 
         # Turn spines off and create white grid.
-        for edge, spine in ax.spines.items():
+        for _, spine in ax.spines.items():
             spine.set_visible(False)
 
         ax.set_xticks(np.arange(data.shape[1]+1)-.5, minor=True)
