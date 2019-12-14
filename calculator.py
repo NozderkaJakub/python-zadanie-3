@@ -3,7 +3,11 @@ import math
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from data import Data
 
+d = Data()
+sequenceName = d.data['sequenceName']
+localization = d.data['localization']
 
 class Calculator:
 
@@ -17,6 +21,13 @@ class Calculator:
         self.alm1 = alm1
         self.alm2 = alm2
         self.localization = localization
+
+    @classmethod
+    def dominant(cls):
+        data = []
+        data.append(list(cls.calc_mode(sequenceName)))
+        data.append(list(cls.calc_mode(localization)))
+        print(pd.DataFrame(data, columns=["Dominanta", "Liczebność", "Częstość"]))
 
     @classmethod
     def calc_arithmetic_mean(cls, data):
@@ -52,7 +63,6 @@ class Calculator:
             collections.Counter(data).items(),
             key=lambda x: x[1]
         )
-        print(value)
         return value, number, number / len(data)
 
     @classmethod
