@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-quantitativeFunctions = [Calculator.calc_arithmetic_mean, Calculator.calc_standard_deviation, Calculator.calc_median,
-                         Calculator.calc_minimum, Calculator.calc_maximum]
+quantitativeFunctions = [Calculator.calc_arithmetic_mean, Calculator.calc_standard_deviation, Calculator.calc_minimum, Calculator.calc_median,
+                         Calculator.calc_maximum]
 
 
 dataTypes = ['mcg', 'gvh', 'lip', 'chg', 'aac',
@@ -38,7 +38,7 @@ class Analize:
         # self.draw_regression_curve()
 
     def make_output(self):
-        data = { "Średnia arytmetyczna": [], "Odchylenie standardowe": [], "Mediana": [], "Minimum": [], "Maksimum": [] }
+        data = { "Średnia arytmetyczna": [], "Odchylenie standardowe": [], "Minimum": [], "Mediana": [], "Maksimum": [] }
         keys = list(data.keys())
         for function in quantitativeFunctions:
             for dataType in dataTypes[:7]:

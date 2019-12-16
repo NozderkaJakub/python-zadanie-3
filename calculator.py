@@ -6,7 +6,6 @@ import seaborn as sns
 from data import Data
 
 d = Data()
-sequenceName = d.data['sequenceName']
 localization = d.data['localization']
 
 class Calculator:
@@ -25,7 +24,6 @@ class Calculator:
     @classmethod
     def dominant(cls):
         data = []
-        data.append(list(cls.calc_mode(sequenceName)))
         data.append(list(cls.calc_mode(localization)))
         print(pd.DataFrame(data, columns=["Dominanta", "Liczebność", "Częstość"]))
 
